@@ -1,5 +1,6 @@
 package com.adventofcode;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.util.stream.IntStream;
 
 /*
@@ -21,7 +22,7 @@ public class WaitingArea {
         layout = initialLayout;
     }
 
-    public String[] next() {
+    public String[] next() throws InvalidAlgorithmParameterException {
         layout = computeNextLayout();
         return layout;
     }
@@ -29,9 +30,12 @@ public class WaitingArea {
     /*
      * Given the current layout, this method computes the next layout
      */
-    private String[] computeNextLayout() {
+    private String[] computeNextLayout() throws InvalidAlgorithmParameterException {
+        var nextLayout = new String[LAYOUT_HEIGTH];
+
         // Process each element of the layout
         for (int rowIndex: IntStream.range(0, LAYOUT_HEIGTH).toArray()) {
+            var newLayoutRow = new StringBuilder();
             for (int columnIndex: IntStream.range(0, LAYOUT_WIDTH).toArray()) {
                 char element = layout[rowIndex].charAt(columnIndex);
                 if( element == NO_SEAT ) {
@@ -40,25 +44,73 @@ public class WaitingArea {
 
                 // Get the sits visible in each line of sights
                 // North
-                var sitN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, layout);
+                var sitsN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, layout);
                 // North-East
-                var sitNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, layout);
+                var sitsNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, layout);
                 // East
-                var sitE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, layout);
+                var sitsE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, layout);
                 // South-East
-                var sitSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, layout);
+                var sitsSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, layout);
                 // South
-                var sitS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, layout);
+                var sitsS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, layout);
                 // South-West
-                var sitSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, layout);
+                var sitsSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, layout);
                 // West
-                var sitW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, layout);
+                var sitsW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, layout);
                 // North-West
-                var sitNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, layout);
+                var sitsNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, layout);
+
+                var sits = new StringBuilder()
+                        .append(sitsN)
+                        .append(sitsNE)
+                        .append(sitsE)
+                        .append(sitsSE)
+                        .append(sitsS)
+                        .append(sitsSW)
+                        .append(sitsW)
+                        .append(sitsNW)
+                        .toString();
+
+                var newElement = applyLogic(element, sits);
+
+
             }
         }
 
         return layout;
+    }
+
+    private char applyLogic(char element, String seats) throws InvalidAlgorithmParameterException {
+        // BUSINESS LOGIC
+        // Also, people seem to be more tolerant than you expected: it now takes five or more visible occupied seats for
+        // an occupied seat to become empty (rather than four or more from the previous rules).
+        // The other rules still apply: empty seats that see no occupied seats become occupied,
+        // seats matching no rule don't change, and floor never changes.
+
+        var numberOfOccupiedSeats = seats.chars().filter(c -> c == OCCUPIED_SEAT).count();
+
+        switch (element) {
+            case NO_SEAT:
+                return NO_SEAT;
+
+            case EMPTY_SEAT:
+                if( numberOfOccupiedSeats < 1) {
+                    return OCCUPIED_SEAT;
+                }
+                else {
+                    return EMPTY_SEAT;
+                }
+
+            case OCCUPIED_SEAT:
+                if( numberOfOccupiedSeats < 5) {
+                    return OCCUPIED_SEAT;
+                }
+                else {
+                    return EMPTY_SEAT;
+                }
+            default:
+                throw new InvalidAlgorithmParameterException(String.format("Unexpected element: {0}", element));
+        }
     }
 
     /*

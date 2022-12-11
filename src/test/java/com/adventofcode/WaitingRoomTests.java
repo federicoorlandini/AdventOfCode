@@ -4,11 +4,12 @@ import jdk.jshell.spi.ExecutionControl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.security.InvalidAlgorithmParameterException;
 import java.util.stream.IntStream;
 
 public class WaitingRoomTests {
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep1() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep1() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "L.LL.LL.LL",
             "LLLLLLL.LL",
@@ -55,7 +56,7 @@ public class WaitingRoomTests {
     }
 
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep2() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep2() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
                 "#.##.##.##",
                 "#######.##",
@@ -89,7 +90,7 @@ public class WaitingRoomTests {
     }
 
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep3() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep3() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "#.LL.LL.L#",
             "#LLLLLL.LL",
@@ -122,7 +123,7 @@ public class WaitingRoomTests {
         assertLayouts(layout, expectedLayout);
     }
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep4() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep4() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "#.L#.##.L#",
             "#L#####.LL",
@@ -156,7 +157,7 @@ public class WaitingRoomTests {
     }
 
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep5() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep5() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "#.L#.L#.L#",
             "#LLLLLL.LL",
@@ -190,7 +191,7 @@ public class WaitingRoomTests {
     }
 
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep6() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep6() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "#.L#.L#.L#",
             "#LLLLLL.LL",
@@ -224,7 +225,7 @@ public class WaitingRoomTests {
     }
 
     @Test
-    public void next_shouldGenerateTheCorrectNextLayoutStep7() {
+    public void next_shouldGenerateTheCorrectNextLayoutStep7() throws InvalidAlgorithmParameterException {
         var layout = new String[] {
             "#.L#.L#.L#",
             "#LLLLLL.LL",
