@@ -38,46 +38,49 @@ public class WaitingArea {
             var newLayoutRow = new StringBuilder();
             for (int columnIndex: IntStream.range(0, LAYOUT_WIDTH).toArray()) {
                 char element = layout[rowIndex].charAt(columnIndex);
+                char newElement;
                 if( element == NO_SEAT ) {
-                    continue;
+                    newElement = element;
+                }
+                else {
+                    // Get the sits visible in each line of sights
+                    // North
+                    var sitsN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, layout);
+                    // North-East
+                    var sitsNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, layout);
+                    // East
+                    var sitsE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, layout);
+                    // South-East
+                    var sitsSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, layout);
+                    // South
+                    var sitsS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, layout);
+                    // South-West
+                    var sitsSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, layout);
+                    // West
+                    var sitsW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, layout);
+                    // North-West
+                    var sitsNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, layout);
+
+                    var sits = String.valueOf(sitsN) +
+                            sitsNE +
+                            sitsE +
+                            sitsSE +
+                            sitsS +
+                            sitsSW +
+                            sitsW +
+                            sitsNW;
+
+                    newElement = applyLogic(element, sits);
                 }
 
-                // Get the sits visible in each line of sights
-                // North
-                var sitsN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, layout);
-                // North-East
-                var sitsNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, layout);
-                // East
-                var sitsE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, layout);
-                // South-East
-                var sitsSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, layout);
-                // South
-                var sitsS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, layout);
-                // South-West
-                var sitsSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, layout);
-                // West
-                var sitsW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, layout);
-                // North-West
-                var sitsNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, layout);
-
-                var sits = new StringBuilder()
-                        .append(sitsN)
-                        .append(sitsNE)
-                        .append(sitsE)
-                        .append(sitsSE)
-                        .append(sitsS)
-                        .append(sitsSW)
-                        .append(sitsW)
-                        .append(sitsNW)
-                        .toString();
-
-                var newElement = applyLogic(element, sits);
-
-
+                newLayoutRow.append(newElement);
             }
+
+            // Add the new layout row to the array of rows
+            nextLayout[rowIndex] = newLayoutRow.toString();
         }
 
-        return layout;
+        return nextLayout;
     }
 
     private char applyLogic(char element, String seats) throws InvalidAlgorithmParameterException {
@@ -135,7 +138,7 @@ public class WaitingArea {
      * stepRow and stepColumn values
      */
     private String getAllSeatsInLineOfSight(int startRow, int startColumn, int stepRow, int stepColumn, String[] layout) {
-        StringBuffer lineOfSight = new StringBuffer();
+        StringBuilder lineOfSight = new StringBuilder();
         var row = startRow + stepRow;
         var column = startColumn + stepColumn;
         while(!isPositionOutOfBounds(row, column)) {

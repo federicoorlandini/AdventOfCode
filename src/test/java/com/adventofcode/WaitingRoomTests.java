@@ -51,7 +51,7 @@ public class WaitingRoomTests {
         for (var rowIndex: IntStream.range(0, layout.length).toArray()) {
             // For each row, check the number of columns
             Assertions.assertEquals(layout[rowIndex].length(), expectedLayout[rowIndex].length());
-            Assertions.assertTrue(layout.equals(expectedLayout), String.format("The row {0} doesn't contain the expected values", rowIndex));
+            Assertions.assertTrue(layout[rowIndex].equals(expectedLayout[rowIndex]), String.format("The row %s doesn't contain the expected values", rowIndex));
         }
     }
 
