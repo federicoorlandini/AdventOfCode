@@ -258,4 +258,25 @@ public class WaitingRoomTests {
 
         assertLayouts(layout, expectedLayout);
     }
+
+    @Test
+    public void next_theLayoutShouldBeStable() throws InvalidAlgorithmParameterException {
+        var initialLayout = new String[] {
+                "#.L#.L#.L#",
+                "#LLLLLL.LL",
+                "L.L.L..#..",
+                "##L#.#L.L#",
+                "L.L#.LL.L#",
+                "#.LLLL#.LL",
+                "..#.L.....",
+                "LLL###LLL#",
+                "#.LLLLL#.L",
+                "#.L#LL#.L#"
+        };
+
+        var waitingArea = new WaitingArea(initialLayout);
+        waitingArea.next();
+
+        Assertions.assertTrue(waitingArea.isLayoutStable());
+    }
 }

@@ -1,6 +1,7 @@
 package com.adventofcode;
 
 import java.security.InvalidAlgorithmParameterException;
+import java.util.Arrays;
 import java.util.stream.IntStream;
 
 /*
@@ -16,15 +17,35 @@ public class WaitingArea {
     private static final int  LAYOUT_WIDTH = 10;
     private static final int  LAYOUT_HEIGTH = 10;
 
-    private String[] layout;
+    private String[] currentLayout;
+    private String[] previousLayout;
 
-    public WaitingArea(String[] initialLayout) {
-        layout = initialLayout;
+    public String[] getCurrentLayout() {
+        return currentLayout;
     }
 
+    public WaitingArea(String[] initialLayout) {
+        currentLayout = initialLayout;
+    }
+
+    /*
+     * Compute the next layout based on the current one
+     */
     public String[] next() throws InvalidAlgorithmParameterException {
-        layout = computeNextLayout();
-        return layout;
+        previousLayout = currentLayout;
+        currentLayout = computeNextLayout();
+        return currentLayout;
+    }
+
+    /*
+     * Return TRUE only if the current layout didn't change if compared with the previous one
+     */
+    public boolean isLayoutStable() {
+        if( currentLayout == null || previousLayout == null ) {
+            return false;
+        }
+
+        return Arrays.equals(previousLayout, currentLayout);
     }
 
     /*
@@ -37,7 +58,7 @@ public class WaitingArea {
         for (int rowIndex: IntStream.range(0, LAYOUT_HEIGTH).toArray()) {
             var newLayoutRow = new StringBuilder();
             for (int columnIndex: IntStream.range(0, LAYOUT_WIDTH).toArray()) {
-                char element = layout[rowIndex].charAt(columnIndex);
+                char element = currentLayout[rowIndex].charAt(columnIndex);
                 char newElement;
                 if( element == NO_SEAT ) {
                     newElement = element;
@@ -45,21 +66,21 @@ public class WaitingArea {
                 else {
                     // Get the sits visible in each line of sights
                     // North
-                    var sitsN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, layout);
+                    var sitsN = seatInLineOfSight(rowIndex, columnIndex, -1, 0, currentLayout);
                     // North-East
-                    var sitsNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, layout);
+                    var sitsNE = seatInLineOfSight(rowIndex, columnIndex, -1, 1, currentLayout);
                     // East
-                    var sitsE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, layout);
+                    var sitsE = seatInLineOfSight(rowIndex, columnIndex, 0, 1, currentLayout);
                     // South-East
-                    var sitsSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, layout);
+                    var sitsSE = seatInLineOfSight(rowIndex, columnIndex, 1, 1, currentLayout);
                     // South
-                    var sitsS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, layout);
+                    var sitsS = seatInLineOfSight(rowIndex, columnIndex, 1, 0, currentLayout);
                     // South-West
-                    var sitsSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, layout);
+                    var sitsSW = seatInLineOfSight(rowIndex, columnIndex, 1, -1, currentLayout);
                     // West
-                    var sitsW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, layout);
+                    var sitsW = seatInLineOfSight(rowIndex, columnIndex, 0, -1, currentLayout);
                     // North-West
-                    var sitsNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, layout);
+                    var sitsNW = seatInLineOfSight(rowIndex, columnIndex, -1, -1, currentLayout);
 
                     var sits = String.valueOf(sitsN) +
                             sitsNE +
