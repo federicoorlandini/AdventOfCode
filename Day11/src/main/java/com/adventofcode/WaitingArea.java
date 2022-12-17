@@ -14,8 +14,8 @@ public class WaitingArea {
     public static final char EMPTY_SEAT = 'L';
     public static final char OCCUPIED_SEAT = '#';
 
-    private static final int  LAYOUT_WIDTH = 10;
-    private static final int  LAYOUT_HEIGTH = 10;
+    private final int layoutWidth;
+    private final int layoutHeight;
 
     private String[] currentLayout;
     private String[] previousLayout;
@@ -26,6 +26,21 @@ public class WaitingArea {
 
     public WaitingArea(String[] initialLayout) {
         currentLayout = initialLayout;
+        layoutHeight = initialLayout.length;
+        layoutWidth = initialLayout[0].length();
+    }
+
+    /*
+     * Run until the layout is stable and returns the number of iterations
+     */
+    public int runAnStopWhenLayoutStable() throws InvalidAlgorithmParameterException {
+        int counter = 1;
+        while( !isLayoutStable() ) {
+            next();
+            counter += 1;
+        }
+
+        return counter;
     }
 
     /*
@@ -52,12 +67,12 @@ public class WaitingArea {
      * Given the current layout, this method computes the next layout
      */
     private String[] computeNextLayout() throws InvalidAlgorithmParameterException {
-        var nextLayout = new String[LAYOUT_HEIGTH];
+        var nextLayout = new String[layoutHeight];
 
         // Process each element of the layout
-        for (int rowIndex: IntStream.range(0, LAYOUT_HEIGTH).toArray()) {
+        for (int rowIndex: IntStream.range(0, layoutHeight).toArray()) {
             var newLayoutRow = new StringBuilder();
-            for (int columnIndex: IntStream.range(0, LAYOUT_WIDTH).toArray()) {
+            for (int columnIndex: IntStream.range(0, layoutWidth).toArray()) {
                 char element = currentLayout[rowIndex].charAt(columnIndex);
                 char newElement;
                 if( element == NO_SEAT ) {
@@ -172,6 +187,6 @@ public class WaitingArea {
     }
 
     private Boolean isPositionOutOfBounds(int row, int column) {
-        return(row < 0 || row >= LAYOUT_HEIGTH || column < 0 || column >= LAYOUT_WIDTH );
+        return(row < 0 || row >= layoutHeight || column < 0 || column >= layoutWidth);
     }
 }

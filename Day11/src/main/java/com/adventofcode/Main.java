@@ -1,11 +1,16 @@
 package com.adventofcode;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.util.Arrays;
 
 public class Main {
-    public static void main(String[] args) throws InvalidAlgorithmParameterException {
-        String [] layout = {
+    public static void main(String[] args) throws InvalidAlgorithmParameterException, IOException {
+        /* String [] layout = {
                 "L.LL.LL.LL",
                 "LLLLLLL.LL",
                 "L.L.L..L..",
@@ -15,13 +20,12 @@ public class Main {
                 "..L.L.....",
                 "LLLLLLLLLL",
                 "L.LLLLLL.L",
-                "L.LLLLL.LL"};
+                "L.LLLLL.LL"}; */
 
+        var layout = loadLayoutFromResources();
 
         var waitingRoom = new WaitingArea(layout);
-        while (!waitingRoom.isLayoutStable()) {
-            waitingRoom.next();
-        }
+        waitingRoom.runAnStopWhenLayoutStable();
 
         // Count how many seats are occupied
         var currentLayout = waitingRoom.getCurrentLayout();
@@ -34,5 +38,12 @@ public class Main {
                 .toArray()).sum();
 
         System.out.println(String.format("Result: %s", result));
-    };
+    }
+
+    private static String[] loadLayoutFromResources() throws IOException {
+        Path path = Paths.get(Main.class.getClassLoader().getResource("layout.txt")
+                .getPath());
+        var allLines = Files.readAllLines(path, StandardCharsets.UTF_8);
+        return allLines.toArray(String[]::new);
+    }
 }
