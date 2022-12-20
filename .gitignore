@@ -1,9 +1,7 @@
-/.idea/
-/target/*
 .DS_Store
-/Day11/.idea/
-/Day11/target/
-/Day12/.idea/
-/Day12/target/
-/Day12/AdventOfCode2020-Day12/.idea/
-Day12/AdventOfCode2020-Day12/target/
+.idea/
+2020/.DS_Store
+/2020/Day11/.idea/*
+2020/Day12/AdventOfCode2020-Day12/src/main/.DS_Store
+2020/Day11/target/
+2020/Day12/AdventOfCode2020-Day12/target/
