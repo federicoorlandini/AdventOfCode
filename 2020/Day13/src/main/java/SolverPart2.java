@@ -4,20 +4,13 @@ import java.util.stream.IntStream;
 
 public class SolverPart2 {
     private class Bus {
-        private int ID;
-        private int offset;
+        public int ID;
+        public int offset;
+    }
 
-        public Bus(int id, int offset) {
-
-        }
-
-        public int getID() {
-            return ID;
-        }
-
-        public int getOffset() {
-            return offset;
-        }
+    private class Match {
+        public long time;
+        public long increment;
     }
 
     private Bus[] parseInput(String input) {
@@ -25,14 +18,41 @@ public class SolverPart2 {
         var buses = new ArrayList<Bus>();
         for (var index: IntStream.range(0, inputItems.length).toArray()) {
             if( !inputItems[index].equals("x")) {
-                buses.add(new Bus(Integer.parseInt(inputItems[index]), index));
+                var newBus = new Bus();
+                newBus.ID = Integer.parseInt(inputItems[index]);
+                newBus.offset = index;
+                buses.add(newBus);
             }
         }
 
         return buses.toArray(Bus[]::new);
     }
 
-    protected int solve(int arrivalTime, int[] busIDs) {
+    protected long solve(long time, String input) {
+        var buses = parseInput(input);
+        var increment = 1L;
+        for (var bus: buses) {
+            System.out.println(String.format("Processing bus with ID %s", bus.ID));
+            var match = findNextMatchingTime(time, bus.ID, bus.offset, increment);
+            increment = match.increment;
+            time = match.time;
+            System.out.println(String.format("Found match at %s. New increment is %s", time, increment));
+        }
 
+        return time;
+    }
+
+    private Match findNextMatchingTime(long time, int busId, int offset, long increment) {
+        while(true) {
+            System.out.print(String.format("Processing time %s\r", time));
+            if( (time + offset) % busId == 0 ) {
+                var match = new Match();
+                match.time = time;
+                match.increment = increment * busId;
+                return match;
+            }
+
+            time += increment;
+        }
     }
 }
