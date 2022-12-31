@@ -5,20 +5,24 @@ import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        /*------------ PART 1 -------------
+        // Part1();
+
+        Part2();
+    }
+
+    private static void Part1() throws IOException {
         // Read the data
         ArrayList<String> lines = readInpuData("input_part1.txt");
 
         // Process the data
-        var cpu = new Cpu();
+        var cpu = new CpuV1();
         cpu.process(lines.toArray(String[]::new));
 
         System.out.println(String.format("Result: %s", cpu.sumMemory()));
-        ------ END PART 1 ------*/
+    }
 
-        //----------- PART 2 -----------------
+    private static void Part2() throws IOException {
         var input = readInpuData("input_part2.txt");
-
     }
 
     private static ArrayList<String> readInpuData(String filename) throws IOException {

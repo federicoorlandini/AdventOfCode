@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Cpu {
+public class CpuV1 {
     private final Map<Long, Long> memory = new HashMap<Long, Long>();
     private long andMask = 1L;
     private long orMask = 0L;

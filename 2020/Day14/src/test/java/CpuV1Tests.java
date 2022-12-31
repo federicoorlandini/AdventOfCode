@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CpuTests {
+public class CpuV1Tests {
     @Test
     public void process_scenario1() {
         String[] commands = new String[] {
@@ -11,7 +11,7 @@ public class CpuTests {
             "mem[8] = 0"
         };
 
-        var cpu = new Cpu();
+        var cpu = new CpuV1();
         cpu.process(commands);
 
         Assertions.assertEquals(101, cpu.readMemory(7));
