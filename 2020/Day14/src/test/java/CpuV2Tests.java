@@ -5,17 +5,15 @@ public class CpuV2Tests {
     @Test
     public void process_scenario1() {
         String[] commands = new String[] {
-            "mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",
-            "mem[8] = 11",
-            "mem[7] = 101",
-            "mem[8] = 0"
+            "mask = 000000000000000000000000000000X1001X",
+            "mem[42] = 100",
+            "mask = 00000000000000000000000000000000X0XX",
+            "mem[26] = 1"
         };
 
         var cpu = new CpuV2();
         cpu.process(commands);
 
-        Assertions.assertEquals(101, cpu.readMemory(7));
-        Assertions.assertEquals(64, cpu.readMemory(8));
-        Assertions.assertEquals(165, cpu.sumMemory());
+        Assertions.assertEquals(208, cpu.sumMemory());
     }
 }

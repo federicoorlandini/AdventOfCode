@@ -6,11 +6,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CpuV1 {
-    private final Map<Long, Long> memory = new HashMap<Long, Long>();
+    protected final Map<Long, Long> memory = new HashMap<Long, Long>();
     private long andMask = 1L;
-    private long orMask = 0L;
+    protected long orMask = 0L;
 
-    private final Pattern MEMSET_COMMAND_PATTERN = Pattern.compile("mem\\[(\\d+)\\] = (\\d+)");
+    protected final Pattern MEMSET_COMMAND_PATTERN = Pattern.compile("mem\\[(\\d+)\\] = (\\d+)");
 
     public void process(String[] commands) {
         for (var command: commands) {
@@ -28,7 +28,7 @@ public class CpuV1 {
         }
     }
 
-    private void setMask(String command) {
+    protected void setMask(String command) {
         // Parse the command
         var mask = command.split("=")[1].trim();
         // Build the AND bitwise mask
@@ -51,7 +51,7 @@ public class CpuV1 {
         return Long.parseLong(mask, 2);
     }
 
-    private void setMem(String command) {
+    protected void setMem(String command) {
         // Example: mem[18971] = 65392
         Matcher m = MEMSET_COMMAND_PATTERN.matcher(command);
         if (!m.find( )) {
