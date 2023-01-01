@@ -22,7 +22,13 @@ public class Main {
     }
 
     private static void Part2() throws IOException {
-        var input = readInpuData("input_part2.txt");
+        var lines = readInpuData("input_part2.txt");
+
+        // Process the data
+        var cpu = new CpuV2();
+        cpu.process(lines.toArray(String[]::new));
+
+        System.out.println(String.format("Result: %s", cpu.sumMemory()));
     }
 
     private static ArrayList<String> readInpuData(String filename) throws IOException {
