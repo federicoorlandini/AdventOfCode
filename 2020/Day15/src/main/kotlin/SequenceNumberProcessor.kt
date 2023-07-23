@@ -1,5 +1,5 @@
 class SequenceNumberProcessor {
-    var result : Int = 0
+    var answer : Int = 0
         private set
 
     var currentTurn : Int = 0
@@ -9,7 +9,7 @@ class SequenceNumberProcessor {
 
     // This method gets the new number in the sequence and returns the
     // next number in the sequence
-    fun process(number : Int) : Unit {
+    fun declareNumber(number : Int) : Unit {
         var nextNumber : Int;
         currentTurn++
 
@@ -24,9 +24,11 @@ class SequenceNumberProcessor {
             nextNumber = 0
         }
 
-        logTurnInfo(nextNumber)
+        if (currentTurn % 500000 == 0) {
+            logTurnInfo(nextNumber)
+        }
 
-        result = nextNumber
+        answer = nextNumber
     }
 
     private fun logTurnInfo(number : Int) {
