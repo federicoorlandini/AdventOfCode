@@ -1,7 +1,8 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+fun main() {
+    // your ticket:
+    // 139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179
+}
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun parseLabels() {
+
 }
