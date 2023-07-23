@@ -2,23 +2,25 @@ class SequenceNumberProcessor {
     var result : Int = 0
         private set
 
-    private var turnCounter = 0
+    var currentTurn : Int = 0
+        private set
+
     private val memory = mutableMapOf<Int, Int>()
 
     // This method gets the new number in the sequence and returns the
     // next number in the sequence
     fun process(number : Int) : Unit {
         var nextNumber : Int;
-        turnCounter++
+        currentTurn++
 
         // Check if the number has been already said
         if (memory.containsKey(number)) {
             var lastTurn = memory[number]!!
-            memory[number] = turnCounter
-            nextNumber = turnCounter - lastTurn
+            memory[number] = currentTurn
+            nextNumber = currentTurn - lastTurn
         }
         else {
-            memory[number] = turnCounter
+            memory[number] = currentTurn
             nextNumber = 0
         }
 
@@ -28,6 +30,6 @@ class SequenceNumberProcessor {
     }
 
     private fun logTurnInfo(number : Int) {
-        println("Turn #$turnCounter: result $number")
+        println("Turn #$currentTurn: result $number")
     }
 }
