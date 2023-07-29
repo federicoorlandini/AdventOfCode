@@ -1,14 +1,37 @@
+typealias Ticket = List<Int>
+
 fun main() {
     // your ticket
-    val yourTicketFields = listOf(139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179)
+    val yourTicketFields : Ticket = listOf(139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179)
 
     val ticketFields = parseTicketFields()
     val nearbyTickets = parseNearbyTickets()
     val ticketChecker = TicketChecker(ticketFields)
-    //val validNearbyTickets = nearbyTickets.filter { ticket -> ticketChecker.isValidTicket(ticket) }
+
+    var errorScanCode = 0
+    val validNearbyTickets = mutableListOf<Ticket>()
+
+    for (ticket in nearbyTickets) {
+        var (isTicketValid, errorCode) = ticketChecker.isValidTicket(ticket)
+        if (!isTicketValid) {
+            errorScanCode += errorCode
+        }
+        else {
+            validNearbyTickets.add(ticket)
+        }
+    }
+
+    println("[Part 1] Error scan code: $errorScanCode")
+
+    //----- PART 2 -----
+
+
+    // Now we process each valid ticket, one by one.
+
+
 }
 
-fun parseNearbyTickets() : List<List<Int>> {
+fun parseNearbyTickets() : List<Ticket> {
     val lines = object{}
         .javaClass
         .getResourceAsStream("input_nearby_tickets.txt")!!
@@ -40,7 +63,7 @@ fun parseLabelLine(line : String) : TicketField {
     // Convert each interval in the text line in a numeric interval
     val intervals = intervalsInLine.map { interval : String ->
         val intervalValues = interval.split("-")
-        Pair(intervalValues[0].toInt(), intervalValues[1].toInt())
+        Pair(intervalValues[0].trim().toInt(), intervalValues[1].trim().toInt())
     }.toList()
 
     return TicketField(label, intervals)
