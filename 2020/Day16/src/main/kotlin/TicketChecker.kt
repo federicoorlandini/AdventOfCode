@@ -16,7 +16,7 @@ class TicketChecker(val ticketFields : List<TicketField>) {
 
     // Given a value, it returns the list of fields that are compatible with the value and
     // the list of the fields that are not compatible with the value
-    fun findFields(value : Int) : Pair<List<TicketField>, List<TicketField> {
+    fun findFields(value : Int) : Pair<List<TicketField>, List<TicketField>> {
         val compatibleFields = mutableListOf<TicketField>()
         val incompatibleFields = mutableListOf<TicketField>()
         ticketFields.forEach {ticketField ->
