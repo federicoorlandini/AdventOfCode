@@ -41,14 +41,4 @@ class TicketCheckerTests {
         assertFalse(invalidTicket1Result3)    // The ticket is invalid
         assertEquals(12, invalidTicket1ErrorCode3) // Error code is 12
     }
-
-    @Test
-    fun findFieldScenario1() {
-        throw NotImplementedError()
-    }
-
-    @Test
-    fun findFieldScenario2() {
-        throw NotImplementedError()
-    }
 }

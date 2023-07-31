@@ -1,15 +1,14 @@
-typealias Ticket = List<Int>
 
 fun main() {
     // your ticket
-    val yourTicketFields : Ticket = listOf(139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179)
+    val yourTicketFields = listOf(139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179)
 
     val ticketFields = parseTicketFields()
     val nearbyTickets = parseNearbyTickets()
     val ticketChecker = TicketChecker(ticketFields)
 
     var errorScanCode = 0
-    val validNearbyTickets = mutableListOf<Ticket>()
+    val validNearbyTickets = mutableListOf<List<Int>>()
 
     for (ticket in nearbyTickets) {
         var (isTicketValid, errorCode) = ticketChecker.isValidTicket(ticket)
@@ -24,14 +23,28 @@ fun main() {
     println("[Part 1] Error scan code: $errorScanCode")
 
     //----- PART 2 -----
+    // Now we process each valid ticket in the nearby tickets list, one by one and
+    val fieldClassifier = FieldClassifier(ticketFields)
+    fieldClassifier.processTickets(validNearbyTickets)
 
+    // Get the positions of the fields that contains the word 'departure'
+    val relevatFieldsIndexes = fieldClassifier
+        .potentialLabelsForFields
+        .map { item -> item.first() }
+        .withIndex()
+        .filter { item -> item.value.contains("departure") }
+        .map { item -> item.index }
 
-    // Now we process each valid ticket, one by one.
+    // Collect the values at that index and multiply the values
+    var result = 1
+    val valuesToMultiply = relevatFieldsIndexes
+        .forEach { fieldIndex -> result *= yourTicketFields[fieldIndex] }
 
-
+    // Result part 2
+    println("Part 2 result: $result")
 }
 
-fun parseNearbyTickets() : List<Ticket> {
+fun parseNearbyTickets() : List<List<Int>> {
     val lines = object{}
         .javaClass
         .getResourceAsStream("input_nearby_tickets.txt")!!
