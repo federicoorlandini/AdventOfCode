@@ -1,4 +1,3 @@
-
 fun main() {
     // your ticket
     val yourTicketFields = listOf(139,113,127,181,53,149,131,239,137,241,89,151,109,73,157,59,107,83,173,179)
@@ -28,7 +27,7 @@ fun main() {
     fieldClassifier.processTickets(validNearbyTickets)
 
     // Get the positions of the fields that contains the word 'departure'
-    val relevatFieldsIndexes = fieldClassifier
+    val relevantFieldsIndexes = fieldClassifier
         .potentialLabelsForFields
         .map { item -> item.first() }
         .withIndex()
@@ -36,9 +35,8 @@ fun main() {
         .map { item -> item.index }
 
     // Collect the values at that index and multiply the values
-    var result = 1
-    val valuesToMultiply = relevatFieldsIndexes
-        .forEach { fieldIndex -> result *= yourTicketFields[fieldIndex] }
+    var result : Long = 1
+    relevantFieldsIndexes.forEach { fieldIndex -> result *= yourTicketFields[fieldIndex] }
 
     // Result part 2
     println("Part 2 result: $result")

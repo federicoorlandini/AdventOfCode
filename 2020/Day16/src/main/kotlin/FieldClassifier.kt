@@ -1,3 +1,5 @@
+import javax.management.InvalidApplicationException
+
 // This is the class that given the list of Ticket fields and
 // the list of tickets find the right place for each field in the tickets
 class FieldClassifier(val ticketFields : List<TicketField>) {
@@ -10,15 +12,13 @@ class FieldClassifier(val ticketFields : List<TicketField>) {
         // with all the labels. We'll remove the labels that doesn't match the value when processing the
         // ticket values
         val labels = ticketFields.map { it.label }
-        potentialLabelsForFields = List<MutableList<String>>(labels.size) { labels.toMutableList() }
+        potentialLabelsForFields = List(labels.size) { labels.toMutableList() }
 
         ticketChecker = TicketChecker(ticketFields)
     }
 
     fun processTickets(tickets : List<List<Int>>) {
         tickets.forEach { ticket -> processTicket(ticket) }
-
-        potentialLabelsForFields.forEachIndexed { index, strings -> println("[$index] ${strings.joinToString(", ")}")  }
 
         // After, we need to process all the fields with a single potential label, removing it from the
         // other label lists. For example, we could have the following situation:
@@ -29,7 +29,7 @@ class FieldClassifier(val ticketFields : List<TicketField>) {
         // remove the label "class" from field 2. The process must end when all the fields
         // have only one label
         var safetyCounter = 0   // This a counter to avoid too many iterations in the while loop
-        while (potentialLabelsForFields.any { potentialLabels -> potentialLabels.size > 1} && safetyCounter < 1000 ) {
+        while (potentialLabelsForFields.any { potentialLabels -> potentialLabels.size > 1}) {
             val labelsAlreadyAllocated = potentialLabelsForFields
                 .filter { potentialLabels -> potentialLabels.size == 1 }.flatten()
 
@@ -40,6 +40,9 @@ class FieldClassifier(val ticketFields : List<TicketField>) {
                 .forEach { potentialLabelList -> potentialLabelList.removeAll(labelsAlreadyAllocated) }
 
             safetyCounter++
+            if (safetyCounter > 1000) {
+                throw InvalidApplicationException("Too many iteration")
+            }
         }
     }
 
