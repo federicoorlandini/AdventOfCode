@@ -1,36 +1,62 @@
 import java.security.InvalidAlgorithmParameterException
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 
 class LayerTests {
     @Test
     fun constructor_theNumberOfRowsMustBeEven() {
-        kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> { Layer(2, 5) }
+        kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> {
+            // Layer 3 x 2
+            Layer(listOf(
+                "..",
+                "##",
+                ".#"
+            ))
+        }
     }
 
     @Test
     fun constructor_theNumberOfColumnsMustBeEven() {
-        kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> { Layer(5, 2) }
+        kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> {
+            // Layer 2 x 3
+            Layer(listOf(
+                "...",
+                "###"
+            ))
+        }
     }
 
     @Test
-    fun constructor_theMaxRowIndexMustBeCorrect() {
-        val layer = Layer(5, 7)
+    fun constructor_theNUmberOfRowsANdColumnsMustBeCorrect() {
+        // Layer 7 x 5
+        val layer = Layer(listOf(
+            ".....",
+            "#####",
+            ".....",
+            "#####",
+            ".....",
+            "#####",
+            "....."
+        ))
 
-        assertEquals(2, layer.maxRowIndex)
-        assertEquals(-2, layer.minRowIndex)
-
-        assertEquals(3, layer.maxColumnIndex)
-        assertEquals(-3, layer.minColumnIndex)
+        assertEquals(7, layer.numberRows)
+        assertEquals(5, layer.numberColumns)
     }
 
     @Test
-    fun constructor_allTheCellsMustBeInactive() {
-        val layer = Layer(3,3)
-        for (rowIndex in layer.minRowIndex..layer.maxRowIndex) {
-            for (columnIndex in layer.minColumnIndex..layer.maxColumnIndex) {
-                assertEquals(CellStatus.INACTIVE, layer.get(rowIndex, columnIndex))
-            }
+    fun constructor_allTheCellsMustBeInTheCorrectInitialStatus() {
+        // Layer 3x3
+        val map = listOf(
+            "...",
+            "###",
+            "..."
+        )
+
+        val layer = Layer(map)
+
+        for ((rowIndex, row) in map.withIndex()) {
+            assertContentEquals(map[rowIndex].toCharArray(), layer.getRow(rowIndex).toCharArray())
         }
     }
 }

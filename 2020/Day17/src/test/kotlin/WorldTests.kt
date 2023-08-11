@@ -1,4 +1,5 @@
 import kotlin.test.Test
+import kotlin.test.assertContentEquals
 
 class WorldTests {
     @Test
@@ -12,21 +13,7 @@ class WorldTests {
         // ..#
         // ###
         //
-        // After 1 cycle:
-        // z=-1
-        // #..
-        // ..#
-        // .#.
-        //
-        // z=0
-        // #.#
-        // .##
-        // .#.
-        //
-        // z=1
-        // #..
-        // ..#
-        // .#.
+
         val initialStatus = listOf(
             ".#.",
             "..#",
@@ -34,11 +21,39 @@ class WorldTests {
         )
         val world = World(initialStatus)
 
+        // After 1 cycle:
         world.iteration()
 
-        val layer0 = world.layers[0]
+        // Layer z=-1
+        // #..
+        // ..#
+        // .#.
+        assertLayer(listOf(
+            "#..",
+            "..#",
+            ".#."), world, -1)
 
+        // Layer z=0
+        // #.#
+        // .##
+        // .#.
+        assertLayer(listOf(
+            "#.#",
+            ".##",
+            ".#."), world, 0)
 
-        throw NotImplementedError()
+        // Layer z=1
+        // #..
+        // ..#
+        // .#.
+        assertLayer(listOf(
+            "#..",
+            "..#",
+            ".#.") ,world, 1)
+    }
+    private fun assertLayer(expectedMap : List<String>, world : World, layerIndex : Int) {
+        expectedMap.forEachIndexed { index, row ->
+            assertContentEquals(row.toCharArray(), world.getLayer(layerIndex).getRow(index).toCharArray())
+        }
     }
 }
