@@ -8,11 +8,7 @@ class LayerTests {
     fun constructor_theNumberOfRowsMustBeEven() {
         kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> {
             // Layer 3 x 2
-            Layer(listOf(
-                "..",
-                "##",
-                ".#"
-            ))
+            Layer(3, 2)
         }
     }
 
@@ -20,17 +16,14 @@ class LayerTests {
     fun constructor_theNumberOfColumnsMustBeEven() {
         kotlin.test.assertFailsWith<InvalidAlgorithmParameterException> {
             // Layer 2 x 3
-            Layer(listOf(
-                "...",
-                "###"
-            ))
+            Layer(2, 3)
         }
     }
 
     @Test
     fun constructor_theNUmberOfRowsANdColumnsMustBeCorrect() {
         // Layer 7 x 5
-        val layer = Layer(listOf(
+        val initialLMap = listOf(
             ".....",
             "#####",
             ".....",
@@ -38,7 +31,9 @@ class LayerTests {
             ".....",
             "#####",
             "....."
-        ))
+        )
+        val layer = Layer(initialLMap.size, initialLMap[0].length)
+        layer.setStatus(initialLMap)
 
         assertEquals(7, layer.numberRows)
         assertEquals(5, layer.numberColumns)
@@ -53,9 +48,10 @@ class LayerTests {
             "..."
         )
 
-        val layer = Layer(map)
+        val layer = Layer(map.size, map[0].length)
+        layer.setStatus(map)
 
-        for ((rowIndex, row) in map.withIndex()) {
+        for ((rowIndex, _) in map.withIndex()) {
             assertContentEquals(map[rowIndex].toCharArray(), layer.getRow(rowIndex).toCharArray())
         }
     }
