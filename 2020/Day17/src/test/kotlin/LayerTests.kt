@@ -55,4 +55,41 @@ class LayerTests {
             assertContentEquals(map[rowIndex].toCharArray(), layer.getRow(rowIndex).toCharArray())
         }
     }
+
+    @Test
+    fun expand_shouldAddTheCorrectRowsAndColumnsUsingTheCorrectCharacter() {
+        // Given a layer with initial status
+        // "..."
+        // "###",
+        // "..."
+        // when calling the expand() method using an INACTIVE_PLACEHOLDER
+        // then the status become
+        // "....."
+        // "....."
+        // ".###."
+        // "....."
+        // "....."
+
+        // Layer 3x3
+        val map = listOf(
+            "...",
+            "###",
+            "..."
+        )
+
+        val layer = Layer(map.size, map[0].length)
+        layer.setStatus(map)
+
+        layer.expand(Layer.INACTIVE_PLACEHOLDER)
+
+        assertEquals(layer.numberRows, 5)
+        assertEquals(layer.numberColumns, 5)
+
+        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
+        assertContentEquals(".###.".toCharArray(), layer.getRow(0).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
+    }
+
 }

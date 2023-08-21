@@ -4,8 +4,10 @@ import java.security.InvalidParameterException
 
 // This class represents a layer in the 3D space of the World class
 class Layer(numberOfRows : Int, numberOfColumns : Int) {
-    val INACTIVE_PLACEHOLDER = '.'
-    val ACTIVE_PLACEHOLDER = '#'
+    companion object {
+        val INACTIVE_PLACEHOLDER = '.'
+        val ACTIVE_PLACEHOLDER = '#'
+    }
 
     private var map : MutableList<MutableList<Char>> = mutableListOf<MutableList<Char>>()
     var numberRows : Int = numberOfRows

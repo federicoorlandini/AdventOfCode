@@ -1,7 +1,10 @@
 import java.security.InvalidParameterException
 
 class World(initialStatus: List<String>) {
-    private val layers : Map<Int, Layer>
+    private val layers : MutableMap<Int, Layer>
+
+    private val centralLayer : Layer
+        get() { return layers[0]!! }
 
     init {
         layers = mutableMapOf<Int, Layer>()
@@ -21,8 +24,17 @@ class World(initialStatus: List<String>) {
     fun iteration() {
         // Execute one iteration on the entire map. Steps:
         // - add a layer on top and at the bottom in the new world, using the actual size of the layer, using the INACTIVE status
+        val newTopLayerIndex = layers.keys.max().toInt() + 1
+        val newTopLayer = Layer(centralLayer.numberRows, centralLayer.numberRows)
+        layers[newTopLayerIndex] = newTopLayer
+
+        val newBottomLayerIndex = layers.keys.min().toInt() - 1
+        val newBottomLayer = Layer(centralLayer.numberRows, centralLayer.numberRows)
+        layers[newBottomLayerIndex] = newBottomLayer
 
         // - expand all the layers in each direction, using the INACTIVE status
+        layers.forEach { layer -> layer.expand(Layer.INACTIVE_PLACEHOLDER) }
+
         // - clone the existing world, let's call it NEW WORLD
         // - in the existing world, for each layer:
         //  * for each element in the layer
