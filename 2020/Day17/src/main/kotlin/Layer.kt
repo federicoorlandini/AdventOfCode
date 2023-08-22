@@ -10,15 +10,21 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
     }
 
     private var map : MutableList<MutableList<Char>> = mutableListOf<MutableList<Char>>()
-    var numberRows : Int = numberOfRows
-    var numberColumns : Int = numberOfColumns
+    var numberRows : Int = 0
+        get() { return map.size }
+
+    var numberColumns : Int = 0
+        get() { return when {
+            map.isEmpty() -> 0
+            else -> map.first().size
+        }}
 
     init {
         // Check if the number of rows and columns are odd
-        if (numberRows % 2 == 0) {
+        if (numberOfRows % 2 == 0) {
             throw InvalidAlgorithmParameterException("The number of rows must be an odd number")
         }
-        if (numberColumns % 2 == 0) {
+        if (numberOfColumns % 2 == 0) {
             throw InvalidAlgorithmParameterException("The number of columns must be an odd number")
         }
 
@@ -74,9 +80,22 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         }
     }
 
-    fun setStatusInactive() {
-        // Initialize the layer with all the element as INACTIVE element
-        throw NotImplementedError()
+    fun getRow(rowIndex : Int) : List<Char> {
+        return map[rowIndex].toList()
+    }
+
+    fun expand(statusForNewElements : Char) {
+        // To expand a layer, we need to first add a new element
+        // at the begin and end of each existing rows, after we must
+        // add a new row, with the new number of columns, at the top and bottom
+        // of the matrix
+        map.forEach { row ->
+            row.add(statusForNewElements)
+            row.add(0, statusForNewElements)
+        }
+        val rowSize = map[0].size
+        map.add(MutableList(rowSize) { _ -> statusForNewElements })
+        map.add(0, MutableList(rowSize) { _ -> statusForNewElements })
     }
 
     private fun validateRowAndColumnIndexes(rowIndex: Int, columnIndex: Int) {
@@ -87,9 +106,5 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         if (columnIndex !in 0..< numberColumns) {
             throw InvalidParameterException("The column index is out of range")
         }
-    }
-
-    fun getRow(rowIndex : Int) : List<Char> {
-        return map[rowIndex].toList()
     }
 }
