@@ -33,7 +33,7 @@ class World(initialStatus: List<String>) {
         layers[newBottomLayerIndex] = newBottomLayer
 
         // - expand all the layers in each direction, using the INACTIVE status
-        layers.forEach { layer -> layer.expand(Layer.INACTIVE_PLACEHOLDER) }
+        layers.forEach { layer -> layer.value.expand(Layer.INACTIVE_PLACEHOLDER) }
 
         // - clone the existing world, let's call it NEW WORLD
         // - in the existing world, for each layer:

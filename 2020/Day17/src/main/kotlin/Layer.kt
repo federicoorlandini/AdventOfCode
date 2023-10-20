@@ -10,15 +10,18 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
     }
 
     private var map : MutableList<MutableList<Char>> = mutableListOf<MutableList<Char>>()
-    var numberRows : Int = numberOfRows
-    var numberColumns : Int = numberOfColumns
+    var numberRows : Int = 0
+        get() = map.size
+
+    var numberColumns : Int = 0
+        get() = map.first().size
 
     init {
         // Check if the number of rows and columns are odd
-        if (numberRows % 2 == 0) {
+        if (numberOfRows % 2 == 0) {
             throw InvalidAlgorithmParameterException("The number of rows must be an odd number")
         }
-        if (numberColumns % 2 == 0) {
+        if (numberOfColumns % 2 == 0) {
             throw InvalidAlgorithmParameterException("The number of columns must be an odd number")
         }
 
@@ -79,6 +82,22 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         throw NotImplementedError()
     }
 
+    fun getRow(rowIndex : Int) : List<Char> {
+        return map[rowIndex].toList()
+    }
+
+    fun expand(placeholder : Char) {
+        // First add a placeholder character at the begin and the end of each row
+        map.forEach { row ->
+            row.add(0, placeholder)
+            row.add(placeholder)
+        }
+        // After, add a row of placeholders characters at the top and bottom of the matrix
+        val rowLength = map.first().size
+        map.add(0, CharArray(rowLength, init = { i -> placeholder}).toMutableList())
+        map.add(CharArray(rowLength, init = { i -> placeholder}).toMutableList())
+    }
+
     private fun validateRowAndColumnIndexes(rowIndex: Int, columnIndex: Int) {
         // Enforce row index and column index in the correct range
         if (rowIndex !in 0..< numberRows) {
@@ -87,9 +106,5 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         if (columnIndex !in 0..< numberColumns) {
             throw InvalidParameterException("The column index is out of range")
         }
-    }
-
-    fun getRow(rowIndex : Int) : List<Char> {
-        return map[rowIndex].toList()
     }
 }

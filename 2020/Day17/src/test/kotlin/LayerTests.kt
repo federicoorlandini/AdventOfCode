@@ -21,7 +21,7 @@ class LayerTests {
     }
 
     @Test
-    fun constructor_theNUmberOfRowsANdColumnsMustBeCorrect() {
+    fun constructor_theNumberOfRowsANdColumnsMustBeCorrect() {
         // Layer 7 x 5
         val initialLMap = listOf(
             ".....",
@@ -86,10 +86,9 @@ class LayerTests {
         assertEquals(layer.numberColumns, 5)
 
         assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
-        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
-        assertContentEquals(".###.".toCharArray(), layer.getRow(0).toCharArray())
-        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
-        assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(1).toCharArray())
+        assertContentEquals(".###.".toCharArray(), layer.getRow(2).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(3).toCharArray())
+        assertContentEquals(".....".toCharArray(), layer.getRow(4).toCharArray())
     }
-
 }
