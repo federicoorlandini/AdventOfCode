@@ -82,8 +82,8 @@ class LayerTests {
 
         layer.expand(Layer.INACTIVE_PLACEHOLDER)
 
-        assertEquals(layer.numberRows, 5)
-        assertEquals(layer.numberColumns, 5)
+        assertEquals(5, layer.numberRows)
+        assertEquals(5, layer.numberColumns)
 
         assertContentEquals(".....".toCharArray(), layer.getRow(0).toCharArray())
         assertContentEquals(".....".toCharArray(), layer.getRow(1).toCharArray())

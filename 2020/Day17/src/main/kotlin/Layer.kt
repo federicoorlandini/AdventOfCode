@@ -14,7 +14,10 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         get() = map.size
 
     var numberColumns : Int = 0
-        get() = map.first().size
+        get() { return when {
+            map.isEmpty() -> 0
+            else -> map.first().size
+        }}
 
     init {
         // Check if the number of rows and columns are odd
@@ -75,11 +78,6 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
                 set(rowIndex, columnIndex, element)
             }
         }
-    }
-
-    fun setStatusInactive() {
-        // Initialize the layer with all the element as INACTIVE element
-        throw NotImplementedError()
     }
 
     fun getRow(rowIndex : Int) : List<Char> {
