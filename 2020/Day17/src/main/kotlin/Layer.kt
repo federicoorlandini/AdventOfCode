@@ -96,6 +96,10 @@ class Layer(numberOfRows : Int, numberOfColumns : Int) {
         map.add(CharArray(rowLength, init = { i -> placeholder}).toMutableList())
     }
 
+    fun clone() : Layer {
+        throw NotImplementedError()
+    }
+
     private fun validateRowAndColumnIndexes(rowIndex: Int, columnIndex: Int) {
         // Enforce row index and column index in the correct range
         if (rowIndex !in 0..< numberRows) {

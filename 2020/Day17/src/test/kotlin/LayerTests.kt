@@ -91,4 +91,39 @@ class LayerTests {
         assertContentEquals(".....".toCharArray(), layer.getRow(3).toCharArray())
         assertContentEquals(".....".toCharArray(), layer.getRow(4).toCharArray())
     }
+
+    @Test
+    fun clone_shouldReturnALayerWithTheSameSize() {
+        val map = listOf(
+            "...",
+            "###",
+            "..."
+        )
+
+        val originalLayer = Layer(map.size, map[0].length)
+        originalLayer.setStatus(map)
+
+        val clonedLayer = originalLayer.clone()
+
+        assertEquals(originalLayer.numberRows, clonedLayer.numberRows)
+        assertEquals(originalLayer.numberColumns, clonedLayer.numberColumns)
+    }
+
+    @Test
+    fun clone_shouldReturnALayerWithTheSameElements() {
+        val map = listOf(
+            "...",
+            "###",
+            "..."
+        )
+
+        val originalLayer = Layer(map.size, map[0].length)
+        originalLayer.setStatus(map)
+
+        val clonedLayer = originalLayer.clone()
+
+        assertEquals(originalLayer.getRow(0), clonedLayer.getRow(0))
+        assertEquals(originalLayer.getRow(1), clonedLayer.getRow(1))
+        assertEquals(originalLayer.getRow(2), clonedLayer.getRow(2))
+    }
 }
