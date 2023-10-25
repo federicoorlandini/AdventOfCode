@@ -1,5 +1,5 @@
 // This class describes the status of each element that compose the world
-class WorldMap(numberOfRows: Int, numberOfColumns: Int, numberOfLayers: Int) {
+class WorldMap(initialStatus : List<String>) {
     private val map: MutableList<MutableList<MutableList<Char>>>
 
     var numberRows : Int = 0
@@ -22,13 +22,25 @@ class WorldMap(numberOfRows: Int, numberOfColumns: Int, numberOfLayers: Int) {
     init {
         // Initialize the map with all the initial status INACTIVE
         map = mutableListOf<MutableList<MutableList<Char>>>()
-        for (l in 1..numberOfLayers) {
+        val numberOfRows = initialStatus.size
+        val numberOfColumns = initialStatus.first().length
+        val numberOfLayers = 1
+
+        for (layerIndex in 0..<numberOfLayers) {
             val layer = mutableListOf<MutableList<Char>>()
-            for (r in 1..numberOfRows) {
-                var row = MutableList<Char>(numberOfColumns) { _ -> '.' }
+            for (rowIndex in 0..<numberOfRows) {
+                var row = initialStatus[rowIndex].toMutableList()
                 layer.add(row)
             }
             map.add(layer)
+        }
+    }
+
+    fun setStatus(elements: List<String>) {
+        for (rowIndex in 0..<elements.size) {
+            for (columnIndex in 0..<elements[rowIndex].length) {
+                map[rowIndex][columnIndex][0] = elements[rowIndex][columnIndex]
+            }
         }
     }
 }
