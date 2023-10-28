@@ -36,11 +36,27 @@ class WorldMap(initialStatus : List<String>) {
         }
     }
 
-    fun setStatus(elements: List<String>) {
-        for (rowIndex in 0..<elements.size) {
-            for (columnIndex in 0..<elements[rowIndex].length) {
-                map[rowIndex][columnIndex][0] = elements[rowIndex][columnIndex]
+    fun expand() {
+        // Add a new layer on top and bottom
+        val numberRows = map.first().size
+        val numberColumns = map.first().first().size
+        map.add(createInactiveLayer(numberRows, numberColumns))
+        map.add(0, createInactiveLayer(numberRows, numberColumns))
+        map.forEach { layer ->
+            // For each layer, add a new row at the top and and at the bottom
+            layer.add(MutableList<Char>(numberColumns) { _ -> '.'})
+            layer.add(0, MutableList<Char>(numberColumns) { _ -> '.'})
+            // For each row, add a new inactive state at the begin and end of the row
+            layer.forEach { row ->
+                row.add('.')
+                row.add(0, '.')
             }
+        }
+    }
+
+    private fun createInactiveLayer(numberRows: Int, numberColumns: Int) : MutableList<MutableList<Char>>{
+        return MutableList<MutableList<Char>>(numberRows) {
+            _ -> MutableList<Char>(numberColumns) { _ -> '.'}
         }
     }
 }

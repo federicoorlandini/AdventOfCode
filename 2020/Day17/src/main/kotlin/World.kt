@@ -11,21 +11,21 @@ class World(initialStatus: List<String>) {
 
     operator fun get(row: Int, column: Int, layer: Int) = worldMap[row, column, layer]
 
-//    fun iteration() {
-//        // Execute one iteration on the entire map. Steps:
-//        expand()
-//
-//        // - clone the existing world, let's call it NEW WORLD
-//        val newWorldLayers = cloneLayers()
-//
-//        // Compute the status of each element in the new world
-//        computeNextStatus(newWorldLayers)
-//
-//        // - in the new world, for each layer:
-//        //  * check if it is possible to remove the top and bottom layers (because they both contains all INACTIVE elements)
-//        //  * check if it is possible to shrink all the layers in all the four directions
-//        throw NotImplementedError()
-//    }
+    fun iteration() {
+        // Execute one iteration on the entire map. Steps:
+        worldMap.expand()
+
+        // - clone the existing world, let's call it NEW WORLD
+        //val newWorldLayers = cloneLayers()
+
+        // Compute the status of each element in the new world
+        //computeNextStatus(newWorldLayers)
+
+        // - in the new world, for each layer:
+        //  * check if it is possible to remove the top and bottom layers (because they both contains all INACTIVE elements)
+        //  * check if it is possible to shrink all the layers in all the four directions
+        throw NotImplementedError()
+    }
 
 //    private fun computeNextStatus(newWorldLayers: MutableMap<Int, Layer>) {
 //        // For each layer:
