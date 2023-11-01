@@ -3,20 +3,16 @@ import kotlin.math.max
 import kotlin.math.min
 
 class World(initialStatus: List<String>) {
-    private val worldMap : WorldMap
+    private val worldMap : WorldMap = WorldMap()
 
-    init {
-        worldMap = WorldMap(initialStatus)
-    }
-
-    operator fun get(row: Int, column: Int, layer: Int) = worldMap[row, column, layer]
+    operator fun get(layer: Int, row: Int, column: Int) = worldMap[layer, row, column]
 
     fun iteration() {
         // Execute one iteration on the entire map. Steps:
         worldMap.expand()
 
         // - clone the existing world, let's call it NEW WORLD
-        //val newWorldLayers = cloneLayers()
+        val newWorldLayers = worldMap.clone()
 
         // Compute the status of each element in the new world
         //computeNextStatus(newWorldLayers)

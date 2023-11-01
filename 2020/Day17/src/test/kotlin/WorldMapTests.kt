@@ -4,39 +4,45 @@ import kotlin.test.assertEquals
 class WorldMapTests {
     @Test
     fun constructor_shouldReturnTheProperNumberOfRows() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
 
         assertEquals(4, worldMap.numberRows)
     }
 
     @Test
     fun constructor_shouldReturnTheProperNumberOfColumns() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
 
         assertEquals(3, worldMap.numberColumns)
     }
 
     @Test
     fun constructor_shouldReturnTheProperNumberOfLayers() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
 
         assertEquals(1, worldMap.numberLayers)
     }
@@ -50,33 +56,38 @@ class WorldMapTests {
         // when we construct the WorldStatus object
         // then we must have the proper elements in the proper positions
 
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###"
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
 
         assertEquals('.', worldMap[0,0,0])
-        assertEquals('#', worldMap[0,1,0])
-        assertEquals('.', worldMap[0,2,0])
-        assertEquals('.', worldMap[1,0,0])
-        assertEquals('.', worldMap[1,1,0])
-        assertEquals('#', worldMap[1,2,0])
-        assertEquals('#', worldMap[2,0,0])
-        assertEquals('#', worldMap[2,1,0])
-        assertEquals('#', worldMap[2,2,0])
+        assertEquals('#', worldMap[0,0,1])
+        assertEquals('.', worldMap[0,0,2])
+        assertEquals('.', worldMap[0,1,0])
+        assertEquals('.', worldMap[0,1,1])
+        assertEquals('#', worldMap[0,1,2])
+        assertEquals('#', worldMap[0,2,0])
+        assertEquals('#', worldMap[0,2,1])
+        assertEquals('#', worldMap[0,2,2])
     }
 
     @Test
     fun expand_shouldReturnTheCorrectNumberOfRows() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
         worldMap.expand()
 
         assertEquals(6, worldMap.numberRows)
@@ -84,13 +95,15 @@ class WorldMapTests {
 
     @Test
     fun expand_shouldReturnTheCorrectNumberOfColumns() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
         worldMap.expand()
 
         assertEquals(5, worldMap.numberColumns)
@@ -98,13 +111,15 @@ class WorldMapTests {
 
     @Test
     fun expand_shouldReturnTheCorrectNumberOfLayers() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
         worldMap.expand()
 
         assertEquals(3, worldMap.numberLayers)
@@ -112,13 +127,15 @@ class WorldMapTests {
 
     @Test
     fun expand_shoudGenerateTheCorrectMap() {
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###",
-            ".#."
+        val layer = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
         )
-        val worldMap = WorldMap(initialStatus)
+        val initialStatus = mutableListOf(layer)
+        val worldMap = WorldMap()
+        worldMap.setInitialStatus(initialStatus)
         worldMap.expand()
 
         // Expected result
@@ -131,7 +148,7 @@ class WorldMapTests {
         // "....."
         for (rowIndex in 0..<6) {
             for (columnIndex in 0..<5) {
-                assertEquals('.', worldMap[rowIndex, columnIndex, 0])
+                assertEquals('.', worldMap[0, rowIndex, columnIndex])
             }
         }
 
@@ -142,36 +159,36 @@ class WorldMapTests {
         // ".###."
         // "..#.."
         // "....."
-        assertEquals('.', worldMap[0, 0, 1])
-        assertEquals('.', worldMap[0, 1, 1])
-        assertEquals('.', worldMap[0, 2, 1])
-        assertEquals('.', worldMap[0, 3, 1])
-        assertEquals('.', worldMap[0, 4, 1])
+        assertEquals('.', worldMap[1, 0, 0])
         assertEquals('.', worldMap[1, 0, 1])
+        assertEquals('.', worldMap[1, 0, 2])
+        assertEquals('.', worldMap[1, 0, 3])
+        assertEquals('.', worldMap[1, 0, 4])
+        assertEquals('.', worldMap[1, 1, 0])
         assertEquals('.', worldMap[1, 1, 1])
-        assertEquals('#', worldMap[1, 2, 1])
-        assertEquals('.', worldMap[1, 3, 1])
+        assertEquals('#', worldMap[1, 1, 2])
+        assertEquals('.', worldMap[1, 1, 3])
+        assertEquals('.', worldMap[1, 1, 4])
+        assertEquals('.', worldMap[1, 2, 0])
+        assertEquals('.', worldMap[1, 2, 1])
+        assertEquals('.', worldMap[1, 2, 2])
+        assertEquals('#', worldMap[1, 2, 3])
+        assertEquals('.', worldMap[1, 2, 4])
+        assertEquals('.', worldMap[1, 3, 0])
+        assertEquals('#', worldMap[1, 3, 1])
+        assertEquals('#', worldMap[1, 3, 2])
+        assertEquals('#', worldMap[1, 3, 3])
+        assertEquals('.', worldMap[1, 3, 4])
+        assertEquals('.', worldMap[1, 4, 0])
         assertEquals('.', worldMap[1, 4, 1])
-        assertEquals('.', worldMap[2, 0, 1])
-        assertEquals('.', worldMap[2, 1, 1])
-        assertEquals('.', worldMap[2, 2, 1])
-        assertEquals('#', worldMap[2, 3, 1])
-        assertEquals('.', worldMap[2, 4, 1])
-        assertEquals('.', worldMap[3, 0, 1])
-        assertEquals('#', worldMap[3, 1, 1])
-        assertEquals('#', worldMap[3, 2, 1])
-        assertEquals('#', worldMap[3, 3, 1])
-        assertEquals('.', worldMap[3, 4, 1])
-        assertEquals('.', worldMap[1, 0, 1])
-        assertEquals('.', worldMap[1, 1, 1])
-        assertEquals('#', worldMap[1, 2, 1])
-        assertEquals('.', worldMap[1, 3, 1])
-        assertEquals('.', worldMap[1, 4, 1])
-        assertEquals('.', worldMap[0, 0, 1])
-        assertEquals('.', worldMap[0, 1, 1])
-        assertEquals('.', worldMap[0, 2, 1])
-        assertEquals('.', worldMap[0, 3, 1])
-        assertEquals('.', worldMap[0, 4, 1])
+        assertEquals('#', worldMap[1, 4, 2])
+        assertEquals('.', worldMap[1, 4, 3])
+        assertEquals('.', worldMap[1, 4, 4])
+        assertEquals('.', worldMap[1, 5, 0])
+        assertEquals('.', worldMap[1, 5, 1])
+        assertEquals('.', worldMap[1, 5, 2])
+        assertEquals('.', worldMap[1, 5, 3])
+        assertEquals('.', worldMap[1, 5, 4])
         // Layer 2 (6 rows x 5 columns):
         // "....."
         // "....."
@@ -181,7 +198,7 @@ class WorldMapTests {
         // "....."
         for (rowIndex in 0..<6) {
             for (columnIndex in 0..<5) {
-                assertEquals('.', worldMap[rowIndex, columnIndex, 2])
+                assertEquals('.', worldMap[2, rowIndex, columnIndex])
             }
         }
     }

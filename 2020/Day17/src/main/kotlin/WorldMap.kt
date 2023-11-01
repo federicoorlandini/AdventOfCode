@@ -1,35 +1,36 @@
 // This class describes the status of each element that compose the world
-class WorldMap(initialStatus : List<String>) {
-    private val map: MutableList<MutableList<MutableList<Char>>>
+class WorldMap() {
+    private val map: MutableList<Layer> = mutableListOf()
 
-    var numberRows : Int = 0
+    val numberRows : Int
         get() = map.first().size
 
-    var numberColumns: Int = 0
+    val numberColumns: Int
         get() = map.first().first().size
 
-    var numberLayers: Int = 0
+    val numberLayers: Int
         get() = map.size
 
-    operator fun get(row: Int, column: Int, layer: Int) : Char {
+    operator fun get(layer: Int, row: Int, column: Int) : Char {
         return map[layer][row][column]
     }
 
-    operator fun set(row: Int, column: Int, layer: Int, value: Char) {
+    operator fun set(layer: Int, row: Int, column: Int, value: Char) {
         map[layer][row][column] = value
     }
 
-    init {
-        // Initialize the map with all the initial status INACTIVE
-        map = mutableListOf<MutableList<MutableList<Char>>>()
-        val numberOfRows = initialStatus.size
-        val numberOfColumns = initialStatus.first().length
-        val numberOfLayers = 1
+    fun setInitialStatus(initialStatus : MutableList<Layer>) {
+        // Initialize the map using a single slice
+        // Clear the actual status
+        emptyStatus()
+
+        val numberOfLayers = initialStatus.size
+        val numberOfRows = initialStatus.first().size
 
         for (layerIndex in 0..<numberOfLayers) {
-            val layer = mutableListOf<MutableList<Char>>()
+            val layer = mutableListOf<Row>()
             for (rowIndex in 0..<numberOfRows) {
-                var row = initialStatus[rowIndex].toMutableList()
+                val row = initialStatus[layerIndex][rowIndex].toMutableList()
                 layer.add(row)
             }
             map.add(layer)
@@ -54,9 +55,20 @@ class WorldMap(initialStatus : List<String>) {
         }
     }
 
+    fun clone() : WorldMap {
+        // Create a copy of the world map
+        val newWorldMap = WorldMap()
+
+        throw NotImplementedError()
+    }
+
     private fun createInactiveLayer(numberRows: Int, numberColumns: Int) : MutableList<MutableList<Char>>{
         return MutableList<MutableList<Char>>(numberRows) {
             _ -> MutableList<Char>(numberColumns) { _ -> '.'}
         }
+    }
+
+    private fun emptyStatus() {
+        map.forEach { row -> row.clear() }
     }
 }
