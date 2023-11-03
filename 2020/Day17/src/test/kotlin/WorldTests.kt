@@ -1,5 +1,6 @@
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
 
 class WorldTests {
     @Test
@@ -22,7 +23,7 @@ class WorldTests {
         val world = World(initialStatus)
 
         // After 1 cycle:
-        //world.iteration()
+        world.iteration()
 
         // Layer z=-1
         // #..
@@ -52,8 +53,10 @@ class WorldTests {
             ".#.") ,world, 1)
     }
     private fun assertLayer(expectedMap : List<String>, world : World, layerIndex : Int) {
-        expectedMap.forEachIndexed { index, row ->
-            // assertContentEquals(row.toCharArray(), world.getLayer(layerIndex).getRow(index).toCharArray())
+        expectedMap.forEachIndexed { rowIndex, row ->
+            row.forEachIndexed { columnIndex, c ->
+                assertEquals(c, world[layerIndex, rowIndex, columnIndex])
+            }
         }
     }
 }

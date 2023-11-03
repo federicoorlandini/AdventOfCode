@@ -5,7 +5,7 @@ import kotlin.math.min
 class World(initialStatus: List<String>) {
     private val worldMap : WorldMap = WorldMap()
 
-    operator fun get(layer: Int, row: Int, column: Int) = worldMap[layer, row, column]
+    operator fun get(layer: Int, row: Int, column: Int) : Char = worldMap[layer, row, column]
 
     fun iteration() {
         // Execute one iteration on the entire map. Steps:
