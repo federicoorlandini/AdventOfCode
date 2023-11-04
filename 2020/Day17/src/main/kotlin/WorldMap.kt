@@ -57,9 +57,20 @@ class WorldMap() {
 
     fun clone() : WorldMap {
         // Create a copy of the world map
-        val newWorldMap = WorldMap()
+        val newMap = mutableListOf<MutableList<MutableList<Char>>>()
 
-        throw NotImplementedError()
+        for (layerIndex in 0..<numberLayers) {
+            val newLayer = mutableListOf<MutableList<Char>>()
+            for (rowIndex in 0..<numberRows) {
+                val newRow = map[layerIndex][rowIndex].toMutableList()
+                newLayer.add(newRow)
+            }
+            newMap.add(newLayer)
+        }
+
+        val newWorldMap = WorldMap()
+        newWorldMap.setInitialStatus(newMap)
+        return newWorldMap
     }
 
     private fun createInactiveLayer(numberRows: Int, numberColumns: Int) : MutableList<MutableList<Char>>{

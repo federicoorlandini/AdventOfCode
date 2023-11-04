@@ -202,4 +202,50 @@ class WorldMapTests {
             }
         }
     }
+
+    @Test
+    fun clone_theClonedShouldHaveTheSameElements() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList(),
+            ".#.".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            "##.".toMutableList(),
+            "#.#".toMutableList(),
+            "#.#".toMutableList(),
+            ".##".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".##".toMutableList(),
+            ".##".toMutableList(),
+            "..#".toMutableList(),
+            "##.".toMutableList()
+        )
+
+        val initialMap = WorldMap()
+        initialMap.setInitialStatus(mutableListOf(layer0, layer1, layer2))
+
+        // Clone
+        val clonedMap = initialMap.clone()
+
+        // Check that the two maps have the same elements
+        for (layerIndex in 0..<initialMap.numberLayers) {
+            for (rowIndex in 0..<initialMap.numberRows) {
+                for (columnIndex in 0..<initialMap.numberColumns) {
+                    assertEquals(initialMap[layerIndex, rowIndex, columnIndex],
+                        clonedMap[layerIndex, rowIndex, columnIndex],
+                        "Invalid element at [$layerIndex, $rowIndex, $columnIndex]." +
+                                "Expected: ${initialMap[layerIndex, rowIndex, columnIndex]} " +
+                                "Found: ${initialMap[layerIndex, rowIndex, columnIndex]}")
+                }
+            }
+        }
+    }
 }
