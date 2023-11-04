@@ -15,11 +15,11 @@ class WorldTests {
         // ###
         //
 
-        val initialStatus = listOf(
-            ".#.",
-            "..#",
-            "###"
-        )
+        val initialStatus = mutableListOf(mutableListOf(
+            ".#.".toMutableList(),
+            "..#".toMutableList(),
+            "###".toMutableList()
+        ))
         val world = World(initialStatus)
 
         // After 1 cycle:

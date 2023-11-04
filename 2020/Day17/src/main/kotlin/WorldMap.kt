@@ -11,6 +11,14 @@ class WorldMap() {
     val numberLayers: Int
         get() = map.size
 
+    operator fun get(layer: Int) : Layer {
+        return map[layer]
+    }
+
+    operator fun get(layer: Int, row: Int) : Row {
+        return map[layer][row]
+    }
+
     operator fun get(layer: Int, row: Int, column: Int) : Char {
         return map[layer][row][column]
     }
@@ -71,6 +79,73 @@ class WorldMap() {
         val newWorldMap = WorldMap()
         newWorldMap.setInitialStatus(newMap)
         return newWorldMap
+    }
+
+    fun shrink() {
+        // We can shrink the map if:
+        // - the entire top layer is composed only by inactive elements
+        // - the entire bottom layer is composed by only inactive elements
+        // - all the elements with lowest index row (zero) are inactive
+        // - all the elements with highest index row (numberRow - 1) are inactive
+        // - all the elements with lowest index column (zero) are inactive
+        // - all the elements with highest index column (numberColumns - 1) are inactive
+        if (isFirstLayerFullInactive() &&
+            isLastLayerFullInactive() &&
+            allFirstRowsAreInactive() &&
+            allLastRowsAreInactive() &&
+            allFirstColumnsAreInactive() &&
+            allLastColumnsAreInactive())
+        {
+            // Shrink
+            // - remove the top and bottom layer
+            // - for each remaining layer:
+            //      - remove the first and last row
+            //      - for each remaining rows
+            //          - remove the first and last column
+
+        }
+
+        throw NotImplementedError()
+    }
+
+    private fun isFirstLayerFullInactive() : Boolean {
+        return map.first().all { row ->
+            row.all { element -> element == '.' }
+        }
+    }
+
+    private fun isLastLayerFullInactive() : Boolean {
+        return map.last().all { row ->
+            row.all { element -> element == '.' }
+        }
+    }
+
+    private fun allFirstRowsAreInactive() : Boolean {
+        return map.all {
+            layer -> layer.first().all { c -> c == '.' }
+        }
+    }
+
+    private fun allLastRowsAreInactive() : Boolean {
+        return map.all {
+                layer -> layer.last().all { c -> c == '.' }
+        }
+    }
+
+    private fun allFirstColumnsAreInactive() : Boolean {
+        return  map.all {
+            layer -> layer.all {
+                row -> row.first() == '.'
+            }
+        }
+    }
+
+    private fun allLastColumnsAreInactive() : Boolean {
+        return  map.all {
+            layer -> layer.all {
+                row -> row.last() == '.'
+             }
+        }
     }
 
     private fun createInactiveLayer(numberRows: Int, numberColumns: Int) : MutableList<MutableList<Char>>{

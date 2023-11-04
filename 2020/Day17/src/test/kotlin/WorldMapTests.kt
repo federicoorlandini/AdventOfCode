@@ -236,14 +236,119 @@ class WorldMapTests {
         val clonedMap = initialMap.clone()
 
         // Check that the two maps have the same elements
-        for (layerIndex in 0..<initialMap.numberLayers) {
-            for (rowIndex in 0..<initialMap.numberRows) {
-                for (columnIndex in 0..<initialMap.numberColumns) {
-                    assertEquals(initialMap[layerIndex, rowIndex, columnIndex],
-                        clonedMap[layerIndex, rowIndex, columnIndex],
+        assertEquals(initialMap, clonedMap)
+    }
+
+    @Test
+    fun shrink_shouldShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        map.shrink()
+
+        // Should remove the first and last layer so we should have only 3 layers
+        assertEquals(3, map.numberLayers)
+
+        // Should remove the first and last rows of each layer, so each layer
+        // should have only 3 rows
+        for (layerIndex in 0..<map.numberLayers) {
+            assertEquals(3, map[layerIndex].size)
+        }
+
+        // Should remove the last and first column of each rows, so each rows
+        // should have only 3 columns
+        for (layerIndex in 0..<map.numberLayers) {
+            for(rowIndex in 0..<map.numberRows) {
+                assertEquals(3, map[layerIndex, rowIndex].size)
+            }
+        }
+
+        // The three layers should be the same than layer1, layer2 and layer 3
+        val expectedLayer0 = mutableListOf(
+            "#.#".toMutableList(),
+            ".#.".toMutableList(),
+            "#.#".toMutableList()
+        )
+
+        val expectedLayer1 = mutableListOf(
+            ".#.".toMutableList(),
+            "#.#".toMutableList(),
+            ".#.".toMutableList()
+        )
+
+        val expectedLayer2 = mutableListOf(
+            "#.#".toMutableList(),
+            ".#.".toMutableList(),
+            "#.#".toMutableList()
+        )
+
+        val expectedWorldMap = WorldMap()
+        expectedWorldMap.setInitialStatus(mutableListOf(expectedLayer0, expectedLayer1, expectedLayer2))
+
+        // Assert
+        assertEquals(expectedWorldMap, map)
+    }
+
+    @Test
+    fun shrink_shouldNotShrinkTheMap() {
+        throw NotImplementedError()
+    }
+
+    private fun assertEquals(map1: WorldMap, map2: WorldMap) {
+        for (layerIndex in 0..<map1.numberLayers) {
+            for (rowIndex in 0..<map1.numberRows) {
+                for (columnIndex in 0..<map1.numberColumns) {
+                    assertEquals(map1[layerIndex, rowIndex, columnIndex],
+                        map2[layerIndex, rowIndex, columnIndex],
                         "Invalid element at [$layerIndex, $rowIndex, $columnIndex]." +
-                                "Expected: ${initialMap[layerIndex, rowIndex, columnIndex]} " +
-                                "Found: ${initialMap[layerIndex, rowIndex, columnIndex]}")
+                                "Expected: ${map1[layerIndex, rowIndex, columnIndex]} " +
+                                "Found: ${map2[layerIndex, rowIndex, columnIndex]}")
                 }
             }
         }
