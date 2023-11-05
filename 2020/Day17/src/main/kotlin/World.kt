@@ -52,20 +52,32 @@ class World(initialStatus: MutableList<Layer>) {
         // There are 26 elements, differing for 1 element on all the dimensions
         var activeElementCounter = 0
         for (layerIncrement in -1 .. 1) {
-            for (columnIncrement in -1 .. 1) {
-                for (rowIncrement in -1 .. 1) {
+            // If the element that we are processing to count the number of active element is
+            // outside the limit of the indexes then we must skip the element
+            val layerIndex = layerPosition + layerIncrement
+            // If the element that we are processing to count the number of active element is
+            // outside the limit of the indexes then we must skip the element
+            if (layerIndex < 0 || layerIndex >= worldMap.numberLayers) {
+                continue
+            }
+
+            for (rowIncrement in -1 .. 1) {
+                // If the element that we are processing to count the number of active element is
+                // outside the limit of the indexes then we must skip the element
+                val rowIndex = rowPosition + rowIncrement
+                if (rowIndex < 0 || rowIndex >= worldMap.numberRows) {
+                    continue
+                }
+
+                for (columnIncrement in -1 .. 1) {
                     // Skip the central element of the cube
                     if( layerIncrement == 0 && columnIncrement == 0 && rowIncrement == 0 )
                         continue
 
                     // If the element that we are processing to count the number of active element is
                     // outside the limit of the indexes then we must skip the element
-                    val layerIndex = layerPosition + layerIncrement
-                    val rowIndex = rowPosition + rowIncrement
                     val columnIndex = columnPosition + columnIncrement
-                    if (layerIndex < 0 || layerIndex >= worldMap.numberLayers ||
-                        rowIndex < 0 || rowIndex >= worldMap.numberRows ||
-                        columnIndex < 0 || columnIndex >= worldMap.numberColumns) {
+                    if (columnIndex < 0 || columnIndex >= worldMap.numberColumns) {
                         continue
                     }
 

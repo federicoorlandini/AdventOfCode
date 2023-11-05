@@ -1,5 +1,7 @@
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class WorldMapTests {
     @Test
@@ -290,7 +292,10 @@ class WorldMapTests {
         map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
 
         // Act
-        map.shrink()
+        val canShrink = map.shrink()
+
+        // Check if can shrink
+        assertTrue { canShrink }
 
         // Should remove the first and last layer so we should have only 3 layers
         assertEquals(3, map.numberLayers)
@@ -336,8 +341,339 @@ class WorldMapTests {
     }
 
     @Test
-    fun shrink_shouldNotShrinkTheMap() {
-        throw NotImplementedError()
+    fun shrink_haveAnActiveElementInTheTopLayer_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            "..#..".toMutableList(), // This element does not allow to shrink
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
+    }
+
+    @Test
+    fun shrink_haveAnActiveElementInTheBottomLayer_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".#...".toMutableList(), // This element does not allow to shrink
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
+    }
+
+    @Test
+    fun shrink_haveAnActiveElementInTheFirstRow_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            "..#..".toMutableList(), // This element does not allow to shrink
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
+    }
+
+    @Test
+    fun shrink_haveAnActiveElementInTheLastRow_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "#....".toMutableList() // This element does not allow to shrink
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
+    }
+
+    @Test
+    fun shrink_haveAnActiveElementInTheFirstColumn_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "#.#..".toMutableList(), // The element in the first column of this row doesn't allow to shrink
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
+    }
+
+    @Test
+    fun shrink_haveAnActiveElementInTheLastColumn_shouldNotShrinkTheMap() {
+        // Layer 0
+        val layer0 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 1
+        val layer1 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 2
+        val layer2 = mutableListOf(
+            ".....".toMutableList(),
+            "..#..".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#..".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 3
+        val layer3 = mutableListOf(
+            ".....".toMutableList(),
+            ".#.#.".toMutableList(),
+            "..#.#".toMutableList(),// The element in the last column of this row doesn't allow to shrink
+            ".#.#.".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        // Layer 4
+        val layer4 = mutableListOf(
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList(),
+            ".....".toMutableList()
+        )
+
+        val map = WorldMap()
+        map.setInitialStatus(mutableListOf(layer0, layer1, layer2, layer3, layer4))
+
+        // Act
+        val canShrink = map.shrink()
+
+        assertFalse { canShrink }
     }
 
     private fun assertEquals(map1: WorldMap, map2: WorldMap) {

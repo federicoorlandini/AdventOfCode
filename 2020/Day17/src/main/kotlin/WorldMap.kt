@@ -81,7 +81,7 @@ class WorldMap() {
         return newWorldMap
     }
 
-    fun shrink() {
+    fun shrink() : Boolean {
         // We can shrink the map if:
         // - the entire top layer is composed only by inactive elements
         // - the entire bottom layer is composed by only inactive elements
@@ -98,14 +98,27 @@ class WorldMap() {
         {
             // Shrink
             // - remove the top and bottom layer
+            map.removeFirst()
+            map.removeLast()
+
             // - for each remaining layer:
             //      - remove the first and last row
             //      - for each remaining rows
             //          - remove the first and last column
+            map.forEach { layer ->
+                layer.removeFirst()
+                layer.removeLast()
+                layer.forEach { row ->
+                    row.removeFirst()
+                    row.removeLast()
+                }
+            }
 
+            return true;    // Yes, it can shrink
         }
 
-        throw NotImplementedError()
+        // Sorry, cannot shrink
+        return false;
     }
 
     private fun isFirstLayerFullInactive() : Boolean {
