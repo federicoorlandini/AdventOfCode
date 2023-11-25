@@ -82,6 +82,28 @@ class WorldMap() {
     }
 
     fun shrink() : Boolean {
+        // If the entire top layer is composed only by inactive elements then we can remove it
+        if (isFirstLayerFullInactive()) {
+            map.removeFirst()
+        }
+
+        // If the entire bottom layer is composed only by inactive elements then we can remove it
+        if (isLastLayerFullInactive()) {
+            map.removeLast()
+        }
+
+        // If all the elements with lowest index row (zero) are inactive in all the layers then
+        // we can remove the lowest index row from all the layers
+
+        // If all the elements with highest index row (zero) are inactive in all the layers then
+        // we can remove the highest index row from all the layers
+
+        // If all the elements with lowest index column (zero) are inactive in all the rows for all the layers
+        // then we can remove that columns
+
+        // If all the elements with highest index column (zero) are inactive in all the rows for all the layers
+        // then we can remove that columns
+
         // We can shrink the map if:
         // - the entire top layer is composed only by inactive elements
         // - the entire bottom layer is composed by only inactive elements
